@@ -174,6 +174,49 @@ body::after {
   line-height: 1.4;
 }
 
+/* ── Mode Toggle ── */
+.mode-toggle-wrap {
+  padding: 0 16px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.mode-toggle {
+  display: inline-flex;
+  padding: 4px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(200, 155, 60, 0.25);
+  border-radius: 999px;
+  gap: 2px;
+}
+
+.mode-toggle__btn {
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.mode-toggle__btn:hover {
+  color: var(--gold-light);
+}
+
+.mode-toggle__btn--active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(200, 155, 60, 0.35);
+}
+
 /* ── Search ── */
 .search-section {
   padding: 0 16px 16px;
@@ -678,6 +721,89 @@ body::after {
   border-radius: 999px;
   background: linear-gradient(90deg, var(--success), #2dd47e);
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Synergy Pick Bars ── */
+.synergy-card {
+  padding: 14px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color var(--transition);
+}
+
+.synergy-card:hover {
+  border-color: rgba(200, 155, 60, 0.25);
+}
+
+.synergy-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.synergy-card .name {
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 0.95rem;
+}
+
+.synergy-card .role {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.synergy-card .reason {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.45;
+}
+
+.synergy-bar {
+  margin-top: 8px;
+}
+
+.synergy-bar__label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.synergy-bar__label span:last-child {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.synergy-bar__track {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.synergy-bar__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spike-bar--duo .spike-bar__col {
+  background: linear-gradient(180deg, var(--gold), var(--gold-dim));
+}
+
+.guide--synergy .difficulty-gauge__fill.high {
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+}
+
+.guide--synergy .difficulty-gauge__value.high {
+  color: var(--gold);
 }
 
 /* ── Ability Threat Meters ── */
@@ -1402,6 +1528,23 @@ body::after {
   }
 
   .counter-grid .counter-card .reason {
+    flex: 1;
+  }
+
+  .synergy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .synergy-grid .synergy-card {
+    margin-bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .synergy-grid .synergy-card .reason {
     flex: 1;
   }
 

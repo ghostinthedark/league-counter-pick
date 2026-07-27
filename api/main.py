@@ -19,6 +19,11 @@ from src.counters.ddragon import (  # noqa: E402
     spell_image_url,
 )
 from src.counters.matchup_db import get_matchup, is_premium_guide  # noqa: E402
+from src.counters.synergy_db import (  # noqa: E402
+    get_synergy,
+    is_premium_synergy_guide,
+    search_synergies,
+)
 
 app = FastAPI(
     title="League Counter Pick",
@@ -125,6 +130,78 @@ def counter_guide(champion: str) -> dict:
         "is_premium_guide": is_premium,
         "has_curated_guide": has_full_guide,
     }
+
+
+@app.get("/api/synergy/{champion}")
+def synergy_guide(champion: str) -> dict:
+    champ = _find_champion(champion)
+    if not champ:
+        raise HTTPException(status_code=404, detail=f"Champion '{champion}' not found")
+
+    detail = get_champion_detail(champ["id"])
+    synergy = get_synergy(champ["id"], champ["name"])
+    if not synergy:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No synergy guide found for '{champion}'",
+        )
+
+    guide = {
+        "summary": synergy.get("summary", f"Best duo partners for {detail['name']}."),
+        "synergy_picks": synergy.get("synergy_picks", []),
+        "ability_synergy_tips": synergy.get("ability_synergy_tips", []),
+        "combo_tips": synergy.get("combo_tips", []),
+        "power_spikes": synergy.get("power_spikes", []),
+        "items_to_consider": synergy.get("items_to_consider", []),
+    }
+    has_full_guide = True
+    is_premium = is_premium_synergy_guide(detail["name"])
+
+    return {
+        "champion": {
+            "id": detail["id"],
+            "name": detail["name"],
+            "title": detail["title"],
+            "tags": detail["tags"],
+            "image_url": champion_image_url(detail["image"]),
+        },
+        **guide,
+        "spells": [
+            {
+                **s,
+                "image_url": spell_image_url(detail["id"], s["key"]),
+            }
+            for s in detail["spells"]
+        ],
+        "has_full_guide": has_full_guide,
+        "is_premium_guide": is_premium,
+        "has_curated_guide": has_full_guide,
+    }
+
+
+@app.get("/api/synergies")
+def synergies(search: str | None = Query(None, min_length=1)) -> list[dict]:
+    all_champs = list_champions()
+    champ_map = {c["name"]: c for c in all_champs}
+
+    if search:
+        names = search_synergies(search)
+    else:
+        names = search_synergies("")
+
+    results = []
+    for name in names:
+        champ = champ_map.get(name)
+        if not champ:
+            continue
+        results.append({
+            "id": champ["id"],
+            "name": champ["name"],
+            "title": champ["title"],
+            "tags": champ["tags"],
+            "image_url": champion_image_url(champ["image"]),
+        })
+    return results
 
 
 WEB_DIR = ROOT / "web" / "static"
