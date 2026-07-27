@@ -145,10 +145,7 @@ function championChip(champ, onClick) {
   const btn = document.createElement('button');
   btn.className = 'champion-chip';
   btn.innerHTML = `
-    <div class="champion-chip__portrait">
-      <img src="${champ.image_url}" alt="${champ.name}" loading="lazy" />
-      <img src="/assets/champion-frame.svg" alt="" class="champion-chip__frame" aria-hidden="true" />
-    </div>
+    <img class="champion-chip__portrait" src="${champ.image_url}" alt="${champ.name}" loading="lazy" />
     <span>${champ.name}</span>`;
   btn.onclick = onClick;
   return btn;
@@ -228,10 +225,7 @@ function renderGuide(guide) {
   let html = `<div class="guide">
     <button class="back-btn">← Back to search</button>
     <div class="guide-hero">
-      <div class="guide-hero__portrait">
-        <img src="${champion.image_url}" alt="${champion.name}" />
-        <img src="/assets/champion-frame.svg" alt="" class="guide-hero__frame" aria-hidden="true" />
-      </div>
+      <img class="guide-hero__portrait" src="${champion.image_url}" alt="${champion.name}" />
       <div class="guide-hero__info">
         <h2>vs ${champion.name}${guide.has_curated_guide ? ' <span class="badge">Guide</span>' : ''}</h2>
         <div class="title">${champion.title}</div>

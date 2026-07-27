@@ -20,6 +20,6 @@
   <path d="M50 98 L54 92 L46 92 Z" fill="#c89b3c"/>
   <path d="M2 50 L8 46 L8 54 Z" fill="#c89b3c"/>
   <path d="M98 50 L92 46 L92 54 Z" fill="#c89b3c"/>
-  <!-- Clip area for champion portrait -->
-  <circle cx="50" cy="50" r="40" fill="url(#frameInner)"/>
+  <!-- Transparent center — portrait shows through from img beneath -->
+  <circle cx="50" cy="50" r="40" fill="none"/>
 </svg>

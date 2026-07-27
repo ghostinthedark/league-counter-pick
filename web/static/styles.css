@@ -231,29 +231,12 @@ body {
 .champion-chip:active { transform: scale(0.96); }
 
 .champion-chip__portrait {
-  position: relative;
-  width: 52px;
-  height: 52px;
-}
-
-.champion-chip__portrait img {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid var(--gold-dim);
-}
-
-.champion-chip__frame {
-  width: 52px;
-  height: 52px;
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 1px var(--gold-dim), 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .champion-chip span {
@@ -331,28 +314,13 @@ body {
 }
 
 .guide-hero__portrait {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-}
-
-.guide-hero__portrait img {
-  width: 68px;
-  height: 68px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.guide-hero__frame {
-  width: 80px;
-  height: 80px;
-  position: absolute;
-  inset: 0;
+  flex-shrink: 0;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 1px var(--gold-dim), 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .guide-hero__info h2 {
