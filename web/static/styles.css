@@ -5,8 +5,6 @@
 :root {
   --bg: #0a1428;
   --splash-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zeri_0.jpg');
-  --splash-overlay-start: rgba(10, 20, 40, 0.85);
-  --splash-overlay-end: rgba(10, 20, 40, 0.95);
   --bg-card: rgba(10, 20, 40, 0.88);
   --bg-glass: rgba(10, 20, 40, 0.72);
   --bg-elevated: #2a2f35;
@@ -27,9 +25,15 @@
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html, body { height: 100%; }
+html {
+  height: 100%;
+  background: var(--bg);
+}
 
 body {
+  position: relative;
+  min-height: 100%;
+  min-height: 100dvh;
   font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
@@ -37,85 +41,66 @@ body {
   line-height: 1.5;
 }
 
+/* Full-viewport Zeri splash (covers side margins on wide screens) */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background: var(--bg) var(--splash-art) center center / cover no-repeat;
+}
+
+body::after {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10, 20, 40, 0.42) 0%,
+      rgba(10, 20, 40, 0.72) calc(50% - 260px),
+      rgba(10, 20, 40, 0.84) 50%,
+      rgba(10, 20, 40, 0.72) calc(50% + 260px),
+      rgba(10, 20, 40, 0.42) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(10, 20, 40, 0.58) 0%,
+      rgba(10, 20, 40, 0.78) 50%,
+      rgba(10, 20, 40, 0.92) 100%
+    ),
+    radial-gradient(
+      ellipse 120% 95% at 50% 35%,
+      transparent 30%,
+      rgba(0, 0, 0, 0.42) 100%
+    );
+}
+
 .app {
   position: relative;
-  isolation: isolate;
+  z-index: 1;
   min-height: 100%;
+  min-height: 100dvh;
   max-width: 480px;
   margin: 0 auto;
   padding-bottom: calc(24px + var(--safe-bottom));
 }
 
-/* Subtle splash backdrop on guide view (hero-only on search) */
-.app::before,
-.app::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.app::before {
-  background: var(--bg) var(--splash-art) center 18% / cover no-repeat;
-}
-
-.app::after {
-  background: linear-gradient(
-    180deg,
-    rgba(10, 20, 40, 0.88) 0%,
-    rgba(10, 20, 40, 0.96) 100%
-  );
-}
-
-.app.guide-active::before {
-  opacity: 0.28;
-}
-
-.app.guide-active::after {
-  opacity: 1;
-}
-
 /* ── Hero Splash ── */
 .hero-splash {
   position: relative;
-  overflow: hidden;
   padding: 40px 20px 36px;
   text-align: center;
   min-height: 240px;
 }
 
-.hero-splash__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: var(--bg);
-}
-
-.hero-splash__art {
-  position: absolute;
-  inset: -6px;
-  background: var(--bg) var(--splash-art) center 22% / cover no-repeat;
-  filter: blur(1.5px);
-  transform: scale(1.04);
-  will-change: transform;
-}
-
-.hero-splash__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    var(--splash-overlay-start) 0%,
-    var(--splash-overlay-end) 100%
-  );
-}
-
 .hero-splash__content {
   position: relative;
-  z-index: 1;
 }
 
 .hero-splash__logo {
@@ -195,7 +180,9 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: linear-gradient(180deg, var(--bg) 85%, transparent);
+  background: linear-gradient(180deg, rgba(10, 20, 40, 0.82) 85%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   padding-top: 4px;
 }
 
@@ -856,14 +843,19 @@ body {
 
 /* ── Responsive tweaks ── */
 @media (max-width: 480px) {
-  .hero-splash__art {
-    inset: 0;
-    filter: none;
-    transform: none;
-  }
-
-  .app.guide-active::before {
-    opacity: 0.18;
+  body::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(10, 20, 40, 0.62) 0%,
+        rgba(10, 20, 40, 0.82) 50%,
+        rgba(10, 20, 40, 0.92) 100%
+      ),
+      radial-gradient(
+        ellipse 130% 100% at 50% 30%,
+        transparent 25%,
+        rgba(0, 0, 0, 0.38) 100%
+      );
   }
 
   .difficulty-gauge {
