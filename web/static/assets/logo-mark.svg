@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="logoGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0e6d2"/>
+      <stop offset="50%" stop-color="#c89b3c"/>
+      <stop offset="100%" stop-color="#785a28"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield base -->
+  <path d="M32 4 L56 14 L56 34 C56 48 44 58 32 60 C20 58 8 48 8 34 L8 14 Z" fill="#1e2328" stroke="url(#logoGold)" stroke-width="2"/>
+  <!-- Crossed swords -->
+  <line x1="22" y1="20" x2="42" y2="44" stroke="url(#logoGold)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="42" y1="20" x2="22" y2="44" stroke="url(#logoGold)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Sword hilts -->
+  <circle cx="22" cy="20" r="2" fill="#c89b3c"/>
+  <circle cx="42" cy="20" r="2" fill="#c89b3c"/>
+  <!-- Center gem -->
+  <circle cx="32" cy="32" r="4" fill="#0397ab" stroke="#c89b3c" stroke-width="1"/>
+</svg>

@@ -41,11 +41,11 @@ git init
 git add .
 git commit -m "Initial counter pick app for deployment"
 git branch -M main
-git remote add origin https://github.com/YOUR-GITHUB-USERNAME/league-counter-pick.git
+git remote set-url origin https://github.com/ghostinthedark/league-counter-pick.git
 git push -u origin main
 ```
 
-Replace `YOUR-GITHUB-USERNAME` with your actual GitHub username.
+If `origin` is not set yet, use `git remote add origin ...` instead of `set-url`.
 
 ---
 

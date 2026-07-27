@@ -4,34 +4,83 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0a1428" />
-  <meta name="description" content="League of Legends counter pick guide" />
+  <meta name="description" content="Know your matchup before you lock in. League of Legends counter pick guide with ability tips and power spike analysis." />
   <link rel="manifest" href="/manifest.json" />
   <title>Counter Pick — LoL Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <div class="app">
-    <header class="header">
-      <h1>⚔ Counter Pick</h1>
-      <p>Who are you facing? Get counter picks &amp; matchup tips.</p>
-    </header>
+    <!-- Hero Splash -->
+    <section class="hero-splash" id="hero-splash">
+      <div class="hero-splash__bg" aria-hidden="true">
+        <img src="/assets/hero-background.svg" alt="" class="hero-splash__bg-img" />
+      </div>
+      <div class="hero-splash__content">
+        <img src="/assets/logo-mark.svg" alt="" class="hero-splash__logo" width="48" height="48" />
+        <h1 class="hero-splash__title">Counter Pick</h1>
+        <p class="hero-splash__tagline">Know your matchup before you lock in</p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features-section">
+      <div class="feature-card">
+        <span class="feature-icon">⚔</span>
+        <h3>Counter Picks</h3>
+        <p>Data-driven champion recommendations for every enemy matchup</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">◎</span>
+        <h3>Ability Intel</h3>
+        <p>Threat-level analysis on every spell you need to respect</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">▲</span>
+        <h3>Power Spikes</h3>
+        <p>Timeline of when your opponent hits their strongest windows</p>
+      </div>
+    </section>
+
+    <!-- Search View -->
     <div id="search-view">
       <div class="search-section">
-        <input id="search-input" class="search-input" type="search"
-          placeholder="Search enemy champion… e.g. Garen" autocomplete="off" />
+        <label for="search-input" class="search-label">Who are you facing?</label>
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="16" y1="16" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="search-input" class="search-input" type="search"
+            placeholder="Search enemy champion… e.g. Garen" autocomplete="off" />
+        </div>
       </div>
-      <div id="popular-section" class="section" style="padding:0 16px">
+      <div id="popular-section" class="section">
         <h3 class="section-title">Popular Matchups</h3>
         <div id="popular-grid" class="champion-grid"></div>
       </div>
       <div id="results-grid" class="champion-grid" style="display:none"></div>
-      <div id="empty-hint" class="empty-hint">Search any champion to see counter picks and ability tips.</div>
+      <div id="empty-hint" class="empty-hint">
+        <p>Search any champion to see counter picks and ability tips.</p>
+      </div>
     </div>
+
+    <!-- Guide View -->
     <div id="guide-view" style="display:none"></div>
-    <div class="footer-note">
-      League Counter Pick is not endorsed by Riot Games.<br />
-      <a href="/terms.html" style="color:#785a28">Terms</a> · <a href="/privacy.html" style="color:#785a28">Privacy</a>
-    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p class="footer-disclaimer">League Counter Pick is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties.</p>
+      <nav class="footer-links">
+        <a href="/terms.html">Terms of Service</a>
+        <span class="footer-sep">·</span>
+        <a href="/privacy.html">Privacy Policy</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 League Counter Pick</p>
+    </footer>
   </div>
   <script src="/app.js"></script>
 </body>
