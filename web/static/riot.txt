@@ -1,0 +1,3 @@
+# Replace this file contents with the verification string from Riot Developer Portal
+# when applying for a Production API key.
+# Must be accessible at: https://YOUR-URL.onrender.com/riot.txt

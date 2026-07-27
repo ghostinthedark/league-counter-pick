@@ -1,0 +1,10 @@
+{
+  "name": "LoL Counter Pick",
+  "short_name": "CounterPick",
+  "description": "Champion counter-pick instructions for League of Legends",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1428",
+  "theme_color": "#c89b3c",
+  "orientation": "portrait"
+}

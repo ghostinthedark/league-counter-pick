@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a1428" />
+  <meta name="description" content="League of Legends counter pick guide" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>Counter Pick — LoL Guide</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>⚔ Counter Pick</h1>
+      <p>Who are you facing? Get counter picks &amp; matchup tips.</p>
+    </header>
+    <div id="search-view">
+      <div class="search-section">
+        <input id="search-input" class="search-input" type="search"
+          placeholder="Search enemy champion… e.g. Garen" autocomplete="off" />
+      </div>
+      <div id="popular-section" class="section" style="padding:0 16px">
+        <h3 class="section-title">Popular Matchups</h3>
+        <div id="popular-grid" class="champion-grid"></div>
+      </div>
+      <div id="results-grid" class="champion-grid" style="display:none"></div>
+      <div id="empty-hint" class="empty-hint">Search any champion to see counter picks and ability tips.</div>
+    </div>
+    <div id="guide-view" style="display:none"></div>
+    <div class="footer-note">
+      League Counter Pick is not endorsed by Riot Games.<br />
+      <a href="/terms.html" style="color:#785a28">Terms</a> · <a href="/privacy.html" style="color:#785a28">Privacy</a>
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

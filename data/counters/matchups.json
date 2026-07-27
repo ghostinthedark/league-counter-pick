@@ -1,0 +1,207 @@
+{
+  "Garen": {
+    "summary": "Garen wins extended trades when he can stay in your face. Respect his passive regen out of combat and his E (Judgment) damage ramp.",
+    "counter_picks": [
+      {"champion": "Vayne", "role": "Top/ADC", "reason": "True damage and kiting punish Garen when he commits with Q. Tumble dodges his silence."},
+      {"champion": "Quinn", "role": "Top", "reason": "Blind and vault keep Garen from ever reaching you. Harass with W passive procs."},
+      {"champion": "Teemo", "role": "Top", "reason": "Blind stops his Q+AA trade pattern. Shroom slow zones deny all-in after level 6."},
+      {"champion": "Kayle", "role": "Top", "reason": "Range advantage and scaling. Slow with W to kite his E spin window."},
+      {"champion": "Darius", "role": "Top", "reason": "Extended trades favor Darius if you dodge Q edge. Garen cannot disengage once hooked."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Perseverance", "tip": "Garen regens heavily when he hasn't taken damage recently. Poke him constantly — even small damage stops the regen for several seconds."},
+      {"key": "Q", "name": "Decisive Strike", "tip": "Point-and-click speed boost + silence + empowered auto. If he runs at you with Q active, sidestep or disengage before the silence lands. It removes your ability to flash/dash for ~1.5s."},
+      {"key": "W", "name": "Courage", "tip": "Passive armor/MR stacking and active damage reduction. Extended fights make him tankier. Burst before W active or bait the W then re-engage after it ends."},
+      {"key": "E", "name": "Judgment", "tip": "THE KEY ABILITY. Garen spins (E) dealing physical damage per tick. Damage INCREASES the longer he stays on one target (up to 10 stacks). Never stand inside the spin — walk out immediately or he out-trades you. Only 1 tick hits if you leave quickly."},
+      {"key": "R", "name": "Demacian Justice", "tip": "Execute based on missing HP. Below ~40% HP you're in kill range. Don't stay low around him — recall or heal before he can flash-R."}
+    ],
+    "laning_tips": [
+      "Trade when his Q is on cooldown — without Q he has no gap close.",
+      "If he starts E (spin), walk OUT of the circle immediately. One tick is fine; 10 ticks loses the trade.",
+      "Bait his W damage reduction, then re-engage when it's on cooldown.",
+      "Buy anti-heal (Oblivion Orb / Bramble Vest) to reduce passive regen value.",
+      "Garen has no escape — jungler ganks are very effective if he pushes."
+    ],
+    "power_spikes": ["Level 6: Execute ult makes all-ins deadly", "First item spike (Stridebreaker/Black Cleaver): Strong duelist", "Level 11: Ult damage increases significantly"],
+    "items_to_consider": ["Plated Steelcaps / Merc Treads — reduces spin and ult damage", "Bramble Vest / Thornmail — cuts passive regen", "Phage / Stridebreaker — if you're a bruiser who needs to stick"]
+  },
+  "Darius": {
+    "summary": "Darius wins long trades with passive stacks and Q heal on the blade edge. Never fight him at 5 Hemorrhage stacks.",
+    "counter_picks": [
+      {"champion": "Quinn", "role": "Top", "reason": "Kites him endlessly. Vault denies Apprehend (E)."},
+      {"champion": "Vayne", "role": "Top", "reason": "Condemn stops his engage. True damage ignores his tankiness."},
+      {"champion": "Teemo", "role": "Top", "reason": "Blind stops W reset auto. Range keeps you out of Q edge."},
+      {"champion": "Kayle", "role": "Top", "reason": "Outscales and kites. Slow prevents stack buildup."},
+      {"champion": "Gnar", "role": "Top", "reason": "Mega form CC and hop disengage. Mini form harass."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Hemorrhage", "tip": "Each ability/auto applies a stack. At 5 stacks he gets massive AD. Reset stacks by leaving combat or killing minions without fighting him."},
+      {"key": "Q", "name": "Decimate", "tip": "Outer edge heals him and deals more damage. Stand INSIDE the handle (close range) for reduced damage and no heal — or stay far away entirely."},
+      {"key": "W", "name": "Crippling Strike", "tip": "Next auto is a slow + armor shred. After he uses an ability, his next AA applies slow — respect the reset timing."},
+      {"key": "E", "name": "Apprehend", "tip": "Pull + slow. 24s cooldown early. Bait it out, then trade while it's down. Don't dash toward him when E is up."},
+      {"key": "R", "name": "Noxian Guillotine", "tip": "Resets on kill. Never stay execute range with 5 stacks — he will flash-R and snowball."}
+    ],
+    "laning_tips": ["Short trades only — never let him reach 5 passive stacks.", "Stand in the inner ring of his Q or dodge the blade entirely.", "Punish when Apprehend (E) is on cooldown.", "Buy early boots — his win condition is sticking to you.", "Call jungler when he pushes — immobile and easy to gank."],
+    "power_spikes": ["Level 1-3: Very strong with Conqueror", "Level 6: Execute threat", "Ghost + Stridebreaker: Unkillable duelist"],
+    "items_to_consider": ["Plated Steelcaps", "Bramble Vest", "Phage for sticking if bruiser"]
+  },
+  "Yasuo": {
+    "summary": "Yasuo scales with tornado setups and wind wall. Don't fight in minion waves — he will dash through them endlessly.",
+    "counter_picks": [
+      {"champion": "Annie", "role": "Mid", "reason": "Point-and-click stun ignores wind wall. Burst before he scales."},
+      {"champion": "Malzahar", "role": "Mid", "reason": "Suppression can't be wind-walled. Passive blocks poke."},
+      {"champion": "Renekton", "role": "Mid/Top", "reason": "Early all-in before Yasuo scales. W breaks shield."},
+      {"champion": "Pantheon", "role": "Mid/Top", "reason": "Point-and-click W stun. Strong early game."},
+      {"champion": "Garen", "role": "Top", "reason": "Q silence stops dash chains. Simple kit beats mechanics."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Way of the Wanderer", "tip": "Shield from moving. Break it with any damage before trading. Double crit passive makes him scale hard."},
+      {"key": "Q", "name": "Steel Tempest", "tip": "Third Q is a tornado knockup. Watch his stacks — when whirlwind is ready, play safe. He can EQ-flash for surprise knockups."},
+      {"key": "W", "name": "Wind Wall", "tip": "Blocks ALL projectiles for 4 seconds. Don't waste key abilities into it. Bait it out then fight."},
+      {"key": "E", "name": "Sweeping Blade", "tip": "Dashes through targets. Cooldown per target. In a big minion wave he has many dashes — don't chase in waves."},
+      {"key": "R", "name": "Last Breath", "tip": "Only usable on knocked-up enemies. If no tornado ready, his all-in is much weaker."}
+    ],
+    "laning_tips": ["Trade when shield is down and tornado (3rd Q) is on cooldown.", "Freeze near your tower — long lane makes him overextend for dashes.", "Don't fight in large minion waves.", "Wind wall has a long cooldown early — punish after he uses it.", "Buy early armor — he deals mostly physical damage."],
+    "power_spikes": ["Level 6 with tornado up", "Infinity Edge + Zeal", "Two items: Teamfight monster"],
+    "items_to_consider": ["Plated Steelcaps", "Seeker's Armguard (AP)", "Early Bramble if AD"]
+  },
+  "Lux": {
+    "summary": "Lux is a long-range mage. She wins by landing Q (binding) into full combo. Respect her range and bush control.",
+    "counter_picks": [
+      {"champion": "Yasuo", "role": "Mid", "reason": "Wind wall blocks Q and R. Dash through minions to gap close."},
+      {"champion": "Zed", "role": "Mid", "reason": "All-in after she uses Q. R dodges her burst."},
+      {"champion": "Fizz", "role": "Mid", "reason": "E dodges all skillshots. Gap close with R."},
+      {"champion": "Sylas", "role": "Mid", "reason": "Can steal her R. Survives burst with W heal."},
+      {"champion": "Kassadin", "role": "Mid", "reason": "Scales into her. R gap close after level 6."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Illumination", "tip": "Abilities mark targets. Auto-attack detonates for bonus damage. After she hits a spell, expect an AA for extra poke."},
+      {"key": "Q", "name": "Light Binding", "tip": "Roots up to 2 targets. 11s cooldown at rank 1. Sidestep or hide behind minions. If Q misses, she's vulnerable."},
+      {"key": "W", "name": "Prismatic Barrier", "tip": "Shield boomerang. Don't waste damage into the returning shield."},
+      {"key": "E", "name": "Lucent Singularity", "tip": "Slow zone + detonate. She often E then Q on slowed target. Move unpredictably."},
+      {"key": "R", "name": "Final Spark", "tip": "Global-range laser. Low cooldown late game. Don't stand in minion line or at low HP in her vision."}
+    ],
+    "laning_tips": ["Hide behind minions to block Q.", "All-in when Q is on cooldown.", "Buy Boots early — dodge skillshots easier.", "Bush control denies free Q setups.", "Hexdrinker/Maw if AD assassin."],
+    "power_spikes": ["Lost Chapter / Luden's first item", "Level 6 full combo", "Level 11 R rank 2"],
+    "items_to_consider": ["Mercury's Treads", "Hexdrinker (AD)", "Verdant Barrier (AP)"]
+  },
+  "Zed": {
+    "summary": "Zed wins short burst windows with R. After he uses W/R, his threat drops massively for 20+ seconds.",
+    "counter_picks": [
+      {"champion": "Malzahar", "role": "Mid", "reason": "Point-and-click ult stops Zed. Shield blocks burst."},
+      {"champion": "Lissandra", "role": "Mid", "reason": "Self-R or W-R stops his all-in. Point-and-click CC."},
+      {"champion": "Annie", "role": "Mid", "reason": "Stun combo before he can R out. Point-and-click."},
+      {"champion": "Galio", "role": "Mid", "reason": "W magic shield. R for roams. CC stops assassination."},
+      {"champion": "Vladimir", "role": "Mid", "reason": "Pool dodges R pop. Outscales and sustains."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Contempt for the Weak", "tip": "Auto does bonus damage to low HP targets. Don't stay below ~50% HP in lane without vision."},
+      {"key": "Q", "name": "Razor Shuriken", "tip": "Line skillshot. Stand behind minions. Hit from both shadow and body hurts a lot."},
+      {"key": "W", "name": "Living Shadow", "tip": "Shadow swap for escape or double Q. 20s cooldown. After W+R combo, punish hard — he's nearly harmless."},
+      {"key": "E", "name": "Shadow Slash", "tip": "Slow in melee range. Don't let him E slow then auto for passive proc."},
+      {"key": "R", "name": "Death Mark", "tip": "Untargetable dash to target. Mark detonates for stored damage. Zhonya's/Stasis dodges pop. After R ends, he MUST W back or die — track shadow location."}
+    ],
+    "laning_tips": ["Buy Seeker's Armguard first back.", "Stand in minion wave to block Q.", "Trade aggressively after he uses W (20s window).", "Zhonya's Hourglass hard counters his R.", "Ward side bushes — Zed roams through fog."],
+    "power_spikes": ["First back with Serrated Dirk", "Level 6 kill pressure", "Youmuu's Ghostblade spike"],
+    "items_to_consider": ["Seeker's Armguard", "Zhonya's Hourglass", "Plated Steelcaps"]
+  },
+  "Ahri": {
+    "summary": "Ahri wins with charm (E) into full combo. Without charm, her damage is much lower. Respect her roams.",
+    "counter_picks": [
+      {"champion": "Yasuo", "role": "Mid", "reason": "Wind wall blocks charm and R damage."},
+      {"champion": "Zed", "role": "Mid", "reason": "All-in before she gets items. R dodges charm combo."},
+      {"champion": "Kassadin", "role": "Mid", "reason": "Scales past her. R dodges charm."},
+      {"champion": "Vladimir", "role": "Mid", "reason": "Pool dodges charm. Outscales in sidelane."},
+      {"champion": "Syndra", "role": "Mid", "reason": "Long range trade. Stun before she can charm."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Essence Theft", "tip": "Spells on champions give her a heal when she has 3 stacks. Short trades prevent healing."},
+      {"key": "Q", "name": "Orb of Deception", "tip": "Returns for true damage. Dodge the return path — it hurts more than the initial hit."},
+      {"key": "W", "name": "Fox-Fire", "tip": "Auto-target flames. Used in all-in after charm. Less threatening alone."},
+      {"key": "E", "name": "Charm", "tip": "THE KEY ABILITY. 12s cooldown early. If charm misses, punish hard. Sidestep or hide behind minions."},
+      {"key": "R", "name": "Spirit Rush", "tip": "3 dashes with damage. She uses this to finish or escape. After 3 dashes used, she's much weaker."}
+    ],
+    "laning_tips": ["Dodge charm — matchup becomes easy if E misses.", "Short trades, don't give 3 passive stacks.", "Push and roam with her — match roams or ping missing.", "Buy Merc Treads to reduce charm duration.", "She is squishy — all-in when R dashes are down."],
+    "power_spikes": ["Lost Chapter", "Level 6 with charm up", "Luden's + Shadowflame"],
+    "items_to_consider": ["Mercury's Treads", "Verdant Barrier", "Hexdrinker if AD"]
+  },
+  "Mordekaiser": {
+    "summary": "Morde wins extended fights in his W heal zone and R 1v1. Don't get isolated or dragged into Death Realm.",
+    "counter_picks": [
+      {"champion": "Vayne", "role": "Top/ADC", "reason": "True damage % HP. Kites outside his E range."},
+      {"champion": "Gnar", "role": "Top", "reason": "Kite in mini, CC in mega. Never get R'd alone."},
+      {"champion": "Quinn", "role": "Top", "reason": "Vault denies E pull. Blind stops Q auto."},
+      {"champion": "Fiora", "role": "Top", "reason": "Parry denies key abilities. Outscales in duels."},
+      {"champion": "Olaf", "role": "Top", "reason": "R ignores Morde R. All-in early before he scales."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Darkness Rise", "tip": "3 spells/AA on champions = AoE magic damage aura. Don't stand in extended trades at 3 stacks."},
+      {"key": "Q", "name": "Obliterate", "tip": "Sweet spot at tip deals bonus damage. Sidestep or stay close inside the sweet spot edge."},
+      {"key": "W", "name": "Indestructible", "tip": "Stores damage as shield, then heals. DON'T attack during shield — you're feeding his heal. Burst when shield expires or ignore and disengage."},
+      {"key": "E", "name": "Death's Grasp", "tip": "Pull + magic penetration. 18s cooldown. Stay out of range or bait it then trade."},
+      {"key": "R", "name": "Realm of Death", "tip": "1v1 arena. Steals stats. NEVER get caught alone. Buy QSS/Mercurial if ADC. Group vs him late."}
+    ],
+    "laning_tips": ["Short trades — don't feed W shield with sustained damage.", "Bait E pull, punish on cooldown.", "Morde has no escape — gank when pushed.", "Buy Merc Treads for magic damage.", "Never fight alone when his R is up."],
+    "power_spikes": ["Riftmaker completion", "Level 6 R kill threat", "Level 9 max abilities"],
+    "items_to_consider": ["Mercury's Treads", "Wit's End", "Quicksilver Sash (ADC)"]
+  },
+  "Sett": {
+    "summary": "Sett wins extended brawls with W true damage center and R front-to-back slam. Kite and don't stand in W sweet spot.",
+    "counter_picks": [
+      {"champion": "Vayne", "role": "Top/ADC", "reason": "Kites the bruiser. True damage % HP."},
+      {"champion": "Quinn", "role": "Top", "reason": "Never lets Sett reach you. Blind stops W trade."},
+      {"champion": "Gnar", "role": "Top", "reason": "Disengage with E hop. Mega CC."},
+      {"champion": "Kayle", "role": "Top", "reason": "Range and scaling. Slow prevents engage."},
+      {"champion": "Teemo", "role": "Top", "reason": "Blind stops empowered W. Shrooms slow chase."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Pit Grit", "tip": "Regen between punches. Right-left combo. Extended autos heal him — burst instead of long auto trades."},
+      {"key": "Q", "name": "Knuckle Down", "tip": "Speed toward enemies + bonus damage on next 2 autos. Don't let him run you down with Q active."},
+      {"key": "W", "name": "Haymaker", "tip": "THE KEY ABILITY. Absorbs damage as grit, then punches for true damage in CENTER. Side-step or dodge the center line — edges only do physical. Never stand still in front of him when W is charging."},
+      {"key": "E", "name": "Facebreaker", "tip": "Pull if enemies on both sides. Don't stand between Sett and a minion/champion. Stun if pulled."},
+      {"key": "R", "name": "The Show Stopper", "tip": "Grabs frontline, slams behind. Don't stand in front of your carries. Sett wants to R a tank onto your backline."}
+    ],
+    "laning_tips": ["Sidestep W center — it's true damage.", "Kite with range — he has no gap close without Flash+Q.", "Don't stand between him and another target for E stun.", "All-in when W is down.", "Gank when he pushes — immobile."],
+    "power_spikes": ["Stridebreaker/Riftmaker", "Level 6 R teamfight", "Hullbreaker sidelane"],
+    "items_to_consider": ["Plated Steelcaps", "Kite items (Rylai's if AP)", "Bramble Vest"]
+  },
+  "Thresh": {
+    "summary": "Thresh wins with hook (Q) pick potential and peel. Respect bush hooks and lantern saves.",
+    "counter_picks": [
+      {"champion": "Morgana", "role": "Support", "reason": "Black Shield blocks hook and flay. Binding outranges hook."},
+      {"champion": "Sivir", "role": "ADC", "reason": "Spell shield blocks hook entirely."},
+      {"champion": "Ezreal", "role": "ADC", "reason": "E blink dodges hook. Safe poke from range."},
+      {"champion": "Alistar", "role": "Support", "reason": "Engage or peel. Can headbutt Thresh under tower."},
+      {"champion": "Leona", "role": "Support", "reason": "Hard engage before hook lands. Tank hook with W."}
+    ],
+    "ability_tips": [
+      {"key": "Q", "name": "Death Sentence", "tip": "Hook — 20s cooldown early. Hide behind minions. If hook misses, punish for 20 seconds. Thresh is nearly harmless without Q."},
+      {"key": "W", "name": "Dark Passage", "tip": "Lantern save. Focus lantern with clicks or stand on it to block. ADC can escape ganks with it."},
+      {"key": "E", "name": "Flay", "tip": "Knockback/pull. Can flay you into hook range. Don't walk up when Q is available."},
+      {"key": "R", "name": "The Box", "tip": "Slows and damages on wall break. Don't chase through walls. Walk around or wait it out."}
+    ],
+    "laning_tips": ["Always stand behind minions vs hook.", "Punish every missed hook — 20s window.", "Click lantern to destroy it if ADC tries to escape.", "Don't facecheck unwarded bushes.", "Morgana/Sivir hard counter in champ select."],
+    "power_spikes": ["First item (Locket/Mobility)", "Level 6 pick potential", "Mid game vision control"],
+    "items_to_consider": ["Mobility Boots", "Control Wards", "Mikael's if ally gets hooked"]
+  },
+  "Jinx": {
+    "summary": "Jinx scales with rockets and passive resets. Punish her early weakness and CC her during passive move speed.",
+    "counter_picks": [
+      {"champion": "Draven", "role": "ADC", "reason": "Dominates early lane. Snowball before Jinx scales."},
+      {"champion": "Lucian", "role": "ADC", "reason": "Burst and mobility. Strong early all-in."},
+      {"champion": "Leona", "role": "Support", "reason": "Hard CC stops passive resets."},
+      {"champion": "Nautilus", "role": "Support", "reason": "Point-and-click CC. Hook catches immobile Jinx."},
+      {"champion": "Zed", "role": "Mid", "reason": "Assassinate in teamfights. Jinx has no escape."}
+    ],
+    "ability_tips": [
+      {"key": "P", "name": "Get Excited!", "tip": "Kill/assist/tower = massive move speed. Don't chase after takedowns — she will outrun you. CC immediately on takedown."},
+      {"key": "Q", "name": "Switcheroo!", "tip": "Fishbones (rockets) = AoE range but mana cost. Pow-Pow = single target DPS. Harass when on Pow-Pow, she has less range."},
+      {"key": "W", "name": "Zap!", "tip": "Long range slow skillshot. 8s cooldown. Sidestep or hide behind minions."},
+      {"key": "E", "name": "Flame Chompers!", "tip": "Traps root on contact. Don't walk in straight lines. Predictable paths get rooted."},
+      {"key": "R", "name": "Super Mega Death Rocket!", "tip": "Global execute damage. Recall at low HP. It executes across the map."}
+    ],
+    "laning_tips": ["All-in early — she's weak levels 1-3.", "Stand behind minions for W and R.", "CC stops passive move speed in fights.", "Deny farm — she needs items to come online.", "Naut/Leona hard engage before she scales."],
+    "power_spikes": ["Runaan's Hurricane", "Level 6 global R", "2+ items: Teamfight hypercarry"],
+    "items_to_consider": ["Early Boots", "Randuin's Omen (if bruiser)", "Thornmail if tank"]
+  }
+}
