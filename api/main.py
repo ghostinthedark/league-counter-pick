@@ -18,7 +18,6 @@ from src.counters.ddragon import (  # noqa: E402
     list_champions,
     spell_image_url,
 )
-from src.counters.guide_generator import generate_guide  # noqa: E402
 from src.counters.matchup_db import get_matchup, is_premium_guide  # noqa: E402
 
 app = FastAPI(
@@ -89,22 +88,22 @@ def counter_guide(champion: str) -> dict:
 
     detail = get_champion_detail(champ["id"])
     matchup = get_matchup(champ["id"], champ["name"])
+    if not matchup:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No matchup guide found for '{champion}'",
+        )
 
-    if matchup:
-        guide = {
-            "summary": matchup.get("summary", f"How to play against {detail['name']}."),
-            "counter_picks": matchup.get("counter_picks", []),
-            "ability_tips": matchup.get("ability_tips", []),
-            "laning_tips": matchup.get("laning_tips", []),
-            "power_spikes": matchup.get("power_spikes", []),
-            "items_to_consider": matchup.get("items_to_consider", []),
-        }
-        has_full_guide = True
-    else:
-        guide = generate_guide(detail)
-        has_full_guide = False
-
-    is_premium = bool(matchup and is_premium_guide(detail["name"]))
+    guide = {
+        "summary": matchup.get("summary", f"How to play against {detail['name']}."),
+        "counter_picks": matchup.get("counter_picks", []),
+        "ability_tips": matchup.get("ability_tips", []),
+        "laning_tips": matchup.get("laning_tips", []),
+        "power_spikes": matchup.get("power_spikes", []),
+        "items_to_consider": matchup.get("items_to_consider", []),
+    }
+    has_full_guide = True
+    is_premium = is_premium_guide(detail["name"])
 
     return {
         "champion": {

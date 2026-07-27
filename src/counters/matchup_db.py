@@ -31,12 +31,12 @@ def get_matchup(champion_id: str, champion_name: str | None = None) -> dict[str,
 
 
 def is_premium_guide(champion_name: str) -> bool:
-    """Hand-curated Yasuo-quality guides."""
-    premium = {
+    """Hand-curated Yasuo-quality guides (original 10). All others are full guides too."""
+    hand_curated = {
         "Garen", "Darius", "Yasuo", "Lux", "Zed",
         "Ahri", "Mordekaiser", "Sett", "Thresh", "Jinx",
     }
-    return champion_name in premium
+    return champion_name in hand_curated or champion_name in _load()
 
 
 def list_curated_ids() -> list[str]:
