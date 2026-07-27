@@ -218,78 +218,107 @@ async function showGuide(championId) {
   }
 }
 
+function renderCounterCard(c, index, total) {
+  const score = c.counter_score || deriveCounterScore(index, total);
+  return `<div class="counter-card">
+    <div class="counter-card__header">
+      <span class="name">${c.champion}</span>
+      <span class="role">${c.role}</span>
+    </div>
+    <div class="reason">${c.reason}</div>
+    ${renderCounterBar(score)}
+  </div>`;
+}
+
+function renderAbilityCard(a) {
+  const threat = a.threat_level
+    ? { score: a.threat_level, tier: a.threat_level >= 85 ? 'critical' : a.threat_level >= 65 ? 'high' : a.threat_level >= 45 ? 'medium' : 'low' }
+    : deriveThreatLevel(a);
+  return `<div class="ability-card">
+    <div class="ability-header">
+      <span class="ability-key">${a.key}</span>
+      <span class="ability-name">${a.name}</span>
+    </div>
+    ${renderThreatMeter(threat)}
+    <div class="ability-tip">${highlightTip(a.tip)}</div>
+  </div>`;
+}
+
 function renderGuide(guide) {
   const { champion } = guide;
   const tags = champion.tags.map((t) => `<span class="tag">${t}</span>`).join('');
   const difficulty = deriveMatchupDifficulty(guide);
+  const hasCounters = guide.counter_picks.length > 0;
+  const hasLaning = guide.laning_tips.length > 0;
+  const hasSpikes = guide.power_spikes.length > 0;
 
-  let html = `<div class="guide">
+  const countersHtml = hasCounters
+    ? guide.counter_picks.map((c, i) => renderCounterCard(c, i, guide.counter_picks.length)).join('')
+    : '';
+
+  const abilitiesHtml = guide.ability_tips.map(renderAbilityCard).join('');
+
+  const laningHtml = hasLaning
+    ? `<section class="guide-panel guide-panel--laning">
+        <h3 class="section-title">Laning Tips</h3>
+        <ul class="tip-list">${guide.laning_tips.map((t) => `<li>${t}</li>`).join('')}</ul>
+      </section>`
+    : '';
+
+  const spikesHtml = hasSpikes
+    ? `<section class="guide-panel guide-panel--spikes">
+        <h3 class="section-title">Power Spikes</h3>
+        ${renderSpikeTimeline(guide.power_spikes)}
+        <ul class="tip-list tip-list--compact">${guide.power_spikes.map((t) => `<li>${t}</li>`).join('')}</ul>
+      </section>`
+    : '';
+
+  const itemsHtml = guide.items_to_consider.length
+    ? `<section class="guide-row guide-row--items guide-panel">
+        <h3 class="section-title">Items to Consider</h3>
+        <div class="item-pills">${guide.items_to_consider.map((item) => `<span class="item-pill">${item}</span>`).join('')}</div>
+      </section>`
+    : '';
+
+  return `<div class="guide">
     <button class="back-btn">← Back to search</button>
-    <div class="guide-hero">
-      <img class="guide-hero__portrait" src="${champion.image_url}" alt="${champion.name}" />
-      <div class="guide-hero__info">
-        <h2>vs ${champion.name}${guideBadge(guide)}</h2>
-        <div class="title">${champion.title}</div>
-        <div class="tags">${tags}</div>
-      </div>
-    </div>
-    ${renderDifficultyGauge(difficulty)}
-    <div class="summary">${guide.summary}</div>`;
-
-  if (guide.counter_picks.length) {
-    html += `<section class="section"><h3 class="section-title">Counter Picks</h3>`;
-    guide.counter_picks.forEach((c, i) => {
-      const score = c.counter_score || deriveCounterScore(i, guide.counter_picks.length);
-      html += `<div class="counter-card">
-        <div class="counter-card__header">
-          <span class="name">${c.champion}</span>
-          <span class="role">${c.role}</span>
+    <div class="guide-layout">
+      <div class="guide-row guide-row--top">
+        <div class="guide-hero">
+          <img class="guide-hero__portrait" src="${champion.image_url}" alt="${champion.name}" />
+          <div class="guide-hero__info">
+            <h2>vs ${champion.name}${guideBadge(guide)}</h2>
+            <div class="title">${champion.title}</div>
+            <div class="tags">${tags}</div>
+          </div>
         </div>
-        <div class="reason">${c.reason}</div>
-        ${renderCounterBar(score)}
-      </div>`;
-    });
-    html += `</section>`;
-  }
-
-  html += `<section class="section"><h3 class="section-title">Abilities to Respect</h3>`;
-  guide.ability_tips.forEach((a) => {
-    const threat = a.threat_level
-      ? { score: a.threat_level, tier: a.threat_level >= 85 ? 'critical' : a.threat_level >= 65 ? 'high' : a.threat_level >= 45 ? 'medium' : 'low' }
-      : deriveThreatLevel(a);
-    html += `<div class="ability-card">
-      <div class="ability-header">
-        <span class="ability-key">${a.key}</span>
-        <span class="ability-name">${a.name}</span>
+        ${renderDifficultyGauge(difficulty)}
       </div>
-      ${renderThreatMeter(threat)}
-      <div class="ability-tip">${highlightTip(a.tip)}</div>
-    </div>`;
-  });
-  html += `</section>`;
 
-  if (guide.laning_tips.length) {
-    html += `<section class="section"><h3 class="section-title">Laning Tips</h3><ul class="tip-list">`;
-    guide.laning_tips.forEach((t) => { html += `<li>${t}</li>`; });
-    html += `</ul></section>`;
-  }
+      <div class="guide-row guide-row--overview${hasCounters ? '' : ' guide-row--single'}">
+        <div class="guide-panel guide-panel--summary">
+          <h3 class="section-title">Matchup Summary</h3>
+          <div class="summary">${guide.summary}</div>
+        </div>
+        ${hasCounters ? `<section class="guide-panel guide-panel--counters">
+          <h3 class="section-title">Counter Picks</h3>
+          <div class="counter-grid">${countersHtml}</div>
+        </section>` : ''}
+      </div>
 
-  if (guide.power_spikes.length) {
-    html += `<section class="section"><h3 class="section-title">Power Spikes</h3>`;
-    html += renderSpikeTimeline(guide.power_spikes);
-    html += `<ul class="tip-list" style="margin-top:12px">`;
-    guide.power_spikes.forEach((t) => { html += `<li>${t}</li>`; });
-    html += `</ul></section>`;
-  }
+      <section class="guide-row guide-row--abilities guide-panel">
+        <h3 class="section-title">Abilities to Respect</h3>
+        <div class="ability-grid">${abilitiesHtml}</div>
+      </section>
 
-  if (guide.items_to_consider.length) {
-    html += `<section class="section"><h3 class="section-title">Items to Consider</h3><div class="item-pills">`;
-    guide.items_to_consider.forEach((item) => { html += `<span class="item-pill">${item}</span>`; });
-    html += `</div></section>`;
-  }
+      ${hasLaning || hasSpikes ? `<div class="guide-row guide-row--midgame${hasLaning && hasSpikes ? '' : ' guide-row--single'}">
+        ${laningHtml}
+        ${spikesHtml}
+      </div>` : ''}
 
-  html += `</div>`;
-  return html;
+      ${itemsHtml}
+    </div>
+  </div>`;
 }
 
 async function init() {
