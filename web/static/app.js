@@ -114,12 +114,13 @@ function renderSpikeTimeline(spikes) {
   const bars = spikes.slice(0, 5).map((text, i) => {
     const level = parsePowerSpikeLevel(text);
     const intensity = deriveSpikeIntensity(text, i);
-    const shortLabel = text.length > 28 ? text.slice(0, 26) + '…' : text;
-    const barHeight = Math.round(intensity * 0.72);
+    const barHeight = Math.max(16, Math.min(58, Math.round(18 + intensity * 0.42)));
     return `<div class="spike-bar">
-      <div class="spike-bar__col" style="height:${barHeight}px"></div>
+      <div class="spike-bar__track">
+        <div class="spike-bar__col" style="height:${barHeight}px"></div>
+      </div>
       ${level ? `<span class="spike-bar__level">Lv ${level}</span>` : ''}
-      <span class="spike-bar__label">${shortLabel}</span>
+      <span class="spike-bar__label">${text}</span>
     </div>`;
   }).join('');
 

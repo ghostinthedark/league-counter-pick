@@ -600,7 +600,7 @@ body {
 
 /* ── Power Spike Timeline ── */
 .spike-timeline {
-  padding: 16px;
+  padding: 14px 12px 12px;
   background: var(--bg-glass);
   backdrop-filter: blur(8px);
   border-radius: var(--radius);
@@ -609,43 +609,53 @@ body {
 
 .spike-timeline__chart {
   display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  height: 80px;
-  padding-top: 8px;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .spike-bar {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 }
 
+.spike-bar__track {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 2px;
+}
+
 .spike-bar__col {
   width: 100%;
-  max-width: 40px;
+  max-width: 36px;
   border-radius: 4px 4px 0 0;
   background: linear-gradient(180deg, var(--gold), var(--gold-dim));
   transition: height 0.6s ease;
-  min-height: 8px;
+  min-height: 12px;
 }
 
 .spike-bar__label {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   color: var(--text-muted);
   text-align: center;
-  line-height: 1.2;
-  max-width: 56px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.35;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .spike-bar__level {
-  font-size: 0.55rem;
+  font-size: 0.58rem;
   color: var(--gold);
   font-weight: 600;
+  line-height: 1.2;
 }
 
 /* ── Tips & Items ── */
@@ -783,9 +793,103 @@ body {
 }
 
 /* ── Responsive tweaks ── */
+@media (max-width: 480px) {
+  .difficulty-gauge {
+    padding: 14px 12px;
+  }
+
+  .difficulty-gauge__header {
+    gap: 8px;
+  }
+
+  .difficulty-gauge__markers {
+    font-size: 0.55rem;
+  }
+
+  .counter-card {
+    padding: 12px;
+  }
+
+  .counter-card__header {
+    flex-wrap: wrap;
+    gap: 2px 8px;
+  }
+
+  .counter-bar__label {
+    font-size: 0.64rem;
+    gap: 6px;
+  }
+
+  .counter-bar__track {
+    width: 100%;
+  }
+
+  .ability-card {
+    padding: 12px;
+  }
+
+  .ability-header {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .ability-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .threat-meter {
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .threat-meter__track {
+    min-width: 0;
+  }
+
+  .threat-meter__label {
+    min-width: 48px;
+    font-size: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .spike-timeline {
+    padding: 12px 8px 10px;
+  }
+
+  .spike-timeline__chart {
+    gap: 3px;
+  }
+
+  .spike-bar__track {
+    height: 56px;
+  }
+
+  .spike-bar__col {
+    max-width: 32px;
+  }
+
+  .spike-bar__label {
+    font-size: 0.54rem;
+    line-height: 1.3;
+  }
+
+  .spike-bar__level {
+    font-size: 0.54rem;
+  }
+}
+
 @media (max-width: 360px) {
   .champion-grid { grid-template-columns: repeat(3, 1fr); }
   .hero-splash__title { font-size: 1.5rem; }
+
+  .spike-bar__col {
+    max-width: 28px;
+  }
+
+  .spike-bar__label {
+    font-size: 0.5rem;
+  }
 }
 
 @media (min-width: 481px) {
