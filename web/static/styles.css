@@ -4,8 +4,11 @@
 
 :root {
   --bg: #0a1428;
-  --bg-card: rgba(30, 35, 40, 0.85);
-  --bg-glass: rgba(30, 35, 40, 0.65);
+  --splash-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zeri_0.jpg');
+  --splash-overlay-start: rgba(10, 20, 40, 0.85);
+  --splash-overlay-end: rgba(10, 20, 40, 0.95);
+  --bg-card: rgba(10, 20, 40, 0.88);
+  --bg-glass: rgba(10, 20, 40, 0.72);
   --bg-elevated: #2a2f35;
   --gold: #c89b3c;
   --gold-light: #f0e6d2;
@@ -35,30 +38,79 @@ body {
 }
 
 .app {
+  position: relative;
+  isolation: isolate;
   min-height: 100%;
   max-width: 480px;
   margin: 0 auto;
   padding-bottom: calc(24px + var(--safe-bottom));
 }
 
+/* Subtle splash backdrop on guide view (hero-only on search) */
+.app::before,
+.app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.app::before {
+  background: var(--bg) var(--splash-art) center 18% / cover no-repeat;
+}
+
+.app::after {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 20, 40, 0.88) 0%,
+    rgba(10, 20, 40, 0.96) 100%
+  );
+}
+
+.app.guide-active::before {
+  opacity: 0.28;
+}
+
+.app.guide-active::after {
+  opacity: 1;
+}
+
 /* ── Hero Splash ── */
 .hero-splash {
   position: relative;
   overflow: hidden;
-  padding: 32px 20px 28px;
+  padding: 40px 20px 36px;
   text-align: center;
+  min-height: 240px;
 }
 
 .hero-splash__bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: var(--bg);
 }
 
-.hero-splash__bg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero-splash__art {
+  position: absolute;
+  inset: -6px;
+  background: var(--bg) var(--splash-art) center 22% / cover no-repeat;
+  filter: blur(1.5px);
+  transform: scale(1.04);
+  will-change: transform;
+}
+
+.hero-splash__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--splash-overlay-start) 0%,
+    var(--splash-overlay-end) 100%
+  );
 }
 
 .hero-splash__content {
@@ -83,10 +135,11 @@ body {
 
 .hero-splash__tagline {
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: rgba(240, 230, 210, 0.88);
   margin-top: 8px;
   font-weight: 400;
   letter-spacing: 0.02em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
 }
 
 /* ── Features ── */
@@ -103,9 +156,10 @@ body {
   gap: 12px;
   padding: 14px 16px;
   background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(200, 155, 60, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 155, 60, 0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
   border-radius: var(--radius);
   transition: border-color var(--transition);
 }
@@ -802,6 +856,16 @@ body {
 
 /* ── Responsive tweaks ── */
 @media (max-width: 480px) {
+  .hero-splash__art {
+    inset: 0;
+    filter: none;
+    transform: none;
+  }
+
+  .app.guide-active::before {
+    opacity: 0.18;
+  }
+
   .difficulty-gauge {
     padding: 14px 12px;
   }
