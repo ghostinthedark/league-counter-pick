@@ -18,6 +18,7 @@ from src.counters.ddragon import (  # noqa: E402
     list_champions,
     spell_image_url,
 )
+from src.counters.guide_generator import generate_guide  # noqa: E402
 from src.counters.matchup_db import get_matchup  # noqa: E402
 
 app = FastAPI(
@@ -89,18 +90,17 @@ def counter_guide(champion: str) -> dict:
     detail = get_champion_detail(champ["id"])
     matchup = get_matchup(champ["id"])
 
-    ability_tips = []
-    if matchup and matchup.get("ability_tips"):
-        ability_tips = matchup["ability_tips"]
+    if matchup:
+        guide = {
+            "summary": matchup.get("summary", f"How to play against {detail['name']}."),
+            "counter_picks": matchup.get("counter_picks", []),
+            "ability_tips": matchup.get("ability_tips", []),
+            "laning_tips": matchup.get("laning_tips", []),
+            "power_spikes": matchup.get("power_spikes", []),
+            "items_to_consider": matchup.get("items_to_consider", []),
+        }
     else:
-        for spell in detail["spells"]:
-            ability_tips.append(
-                {
-                    "key": spell["key"],
-                    "name": spell["name"],
-                    "tip": spell["description"][:400],
-                }
-            )
+        guide = generate_guide(detail)
 
     return {
         "champion": {
@@ -110,12 +110,7 @@ def counter_guide(champion: str) -> dict:
             "tags": detail["tags"],
             "image_url": champion_image_url(detail["image"]),
         },
-        "summary": matchup.get("summary") if matchup else f"How to play against {detail['name']}.",
-        "counter_picks": matchup.get("counter_picks", []) if matchup else [],
-        "ability_tips": ability_tips,
-        "laning_tips": matchup.get("laning_tips", []) if matchup else [],
-        "power_spikes": matchup.get("power_spikes", []) if matchup else [],
-        "items_to_consider": matchup.get("items_to_consider", []) if matchup else [],
+        **guide,
         "spells": [
             {
                 **s,
