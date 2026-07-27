@@ -1,5 +1,4 @@
 const API = '/api';
-const POPULAR = ['Garen', 'Darius', 'Yasuo', 'Lux', 'Zed', 'Ahri', 'Sett', 'Mordekaiser', 'Thresh', 'Jinx'];
 
 let allChampions = [];
 let searchTimer = null;
@@ -170,28 +169,19 @@ async function loadChampions(search) {
   return res.json();
 }
 
-function renderPopular() {
-  const grid = $('#popular-grid');
-  grid.innerHTML = '';
-  POPULAR.forEach((name) => {
-    const champ = allChampions.find((c) => c.name.toLowerCase() === name.toLowerCase());
-    if (champ) grid.appendChild(championChip(champ, () => showGuide(champ.id)));
-  });
-}
-
 function showSearchResults(champions) {
-  const popular = $('#popular-section');
+  const rankClimb = $('#rank-climb-section');
   const results = $('#results-grid');
   const hint = $('#empty-hint');
   if (champions.length === 0) {
-    popular.style.display = 'none';
+    rankClimb.style.display = 'none';
     results.style.display = 'none';
     hint.innerHTML = '<p>No champions found.</p>';
     hint.style.display = 'block';
     return;
   }
   hint.style.display = 'none';
-  popular.style.display = 'none';
+  rankClimb.style.display = 'none';
   results.style.display = 'grid';
   results.innerHTML = '';
   champions.forEach((c) => results.appendChild(championChip(c, () => showGuide(c.id))));
@@ -202,7 +192,7 @@ function showSearchView() {
   $('#search-view').style.display = 'block';
   $('#guide-view').style.display = 'none';
   $('#search-input').value = '';
-  $('#popular-section').style.display = 'block';
+  $('#rank-climb-section').style.display = 'block';
   $('#results-grid').style.display = 'none';
   $('#empty-hint').style.display = 'block';
   $('#empty-hint').innerHTML = '<p>Search any champion to see counter picks and ability tips.</p>';
@@ -304,12 +294,11 @@ function renderGuide(guide) {
 
 async function init() {
   allChampions = await loadChampions();
-  renderPopular();
   $('#search-input').addEventListener('input', (e) => {
     clearTimeout(searchTimer);
     const q = e.target.value.trim();
     if (!q) {
-      $('#popular-section').style.display = 'block';
+      $('#rank-climb-section').style.display = 'block';
       $('#results-grid').style.display = 'none';
       $('#empty-hint').style.display = 'block';
       $('#empty-hint').innerHTML = '<p>Search any champion to see counter picks and ability tips.</p>';

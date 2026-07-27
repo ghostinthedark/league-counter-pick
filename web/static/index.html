@@ -107,10 +107,55 @@
             placeholder="Search enemy champion… e.g. Garen" autocomplete="off" />
         </div>
       </div>
-      <div id="popular-section" class="section">
-        <h3 class="section-title">Popular Matchups</h3>
-        <div id="popular-grid" class="champion-grid"></div>
-      </div>
+      <section id="rank-climb-section" class="rank-climb" aria-labelledby="rank-climb-heading">
+        <p class="rank-climb__eyebrow">Illustrative example</p>
+        <h3 id="rank-climb-heading" class="rank-climb__title">Better prep, better climbs</h3>
+        <p class="rank-climb__subtext">Based on prep consistency — players who review matchups before queue tend to climb steadily over several weeks.</p>
+        <div class="rank-climb__chart-wrap">
+          <svg class="rank-climb__chart" viewBox="0 0 320 200" role="img" aria-label="Illustrative rank climb from Silver to Gold over eight weeks">
+            <defs>
+              <linearGradient id="eloAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#c89b3c" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#c89b3c" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="eloLineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#785a28"/>
+                <stop offset="100%" stop-color="#c89b3c"/>
+              </linearGradient>
+            </defs>
+            <!-- grid -->
+            <g class="rank-climb__grid" stroke="rgba(240,230,210,0.08)" stroke-width="1">
+              <line x1="48" y1="24" x2="304" y2="24"/>
+              <line x1="48" y1="58" x2="304" y2="58"/>
+              <line x1="48" y1="92" x2="304" y2="92"/>
+              <line x1="48" y1="126" x2="304" y2="126"/>
+              <line x1="48" y1="160" x2="304" y2="160"/>
+            </g>
+            <!-- Y-axis tier labels -->
+            <g class="rank-climb__y-labels" fill="#a09b8c" font-size="9" font-family="Inter, sans-serif">
+              <text x="42" y="28" text-anchor="end">Gold</text>
+              <text x="42" y="62" text-anchor="end">Silver</text>
+              <text x="42" y="96" text-anchor="end">Bronze</text>
+              <text x="42" y="130" text-anchor="end">Iron</text>
+            </g>
+            <!-- area + line (Silver IV → Gold II over 8 weeks) -->
+            <path class="rank-climb__area" d="M 48 118 L 84.5 112 L 121 106 L 157.5 98 L 194 82 L 230.5 68 L 267 52 L 304 38 L 304 160 L 48 160 Z" fill="url(#eloAreaGrad)"/>
+            <path class="rank-climb__line" d="M 48 118 L 84.5 112 L 121 106 L 157.5 98 L 194 82 L 230.5 68 L 267 52 L 304 38" fill="none" stroke="url(#eloLineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- end point -->
+            <circle class="rank-climb__dot" cx="304" cy="38" r="4" fill="#c89b3c"/>
+            <circle cx="304" cy="38" r="7" fill="none" stroke="#c89b3c" stroke-opacity="0.35" stroke-width="1.5"/>
+            <!-- X-axis week labels -->
+            <g class="rank-climb__x-labels" fill="#a09b8c" font-size="8" font-family="Inter, sans-serif">
+              <text x="48" y="178" text-anchor="middle">Wk 1</text>
+              <text x="121" y="178" text-anchor="middle">Wk 3</text>
+              <text x="194" y="178" text-anchor="middle">Wk 5</text>
+              <text x="267" y="178" text-anchor="middle">Wk 7</text>
+              <text x="304" y="178" text-anchor="end">Wk 8</text>
+            </g>
+          </svg>
+        </div>
+        <p class="rank-climb__footnote">Example trajectory — not tracked user data. Individual results vary.</p>
+      </section>
       <div id="results-grid" class="champion-grid" style="display:none"></div>
       <div id="empty-hint" class="empty-hint">
         <p>Search any champion to see counter picks and ability tips.</p>
