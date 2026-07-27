@@ -359,14 +359,22 @@ body {
   font-size: 0.6rem;
   padding: 2px 8px;
   border-radius: 999px;
-  background: var(--success);
-  color: #fff;
   margin-left: 8px;
   vertical-align: middle;
   font-family: var(--font-body);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.badge--premium {
+  background: linear-gradient(135deg, #c89b3c, #785a28);
+  color: #fff;
+}
+
+.badge--full {
+  background: var(--success);
+  color: #fff;
 }
 
 .summary {

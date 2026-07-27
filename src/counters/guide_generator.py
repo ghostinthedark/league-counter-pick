@@ -51,7 +51,6 @@ COUNTER_POOLS: dict[str, list[dict[str, str]]] = {
     ],
 }
 
-# Refined pools for common tag combinations
 TAG_COMBO_POOLS: dict[frozenset[str], list[dict[str, str]]] = {
     frozenset({"Support", "Mage"}): [
         {"champion": "Leona", "role": "Support", "reason": "All-in engage collapses enchanter supports before shields matter."},
@@ -90,6 +89,38 @@ TAG_COMBO_POOLS: dict[frozenset[str], list[dict[str, str]]] = {
     ],
 }
 
+# Champion-specific counter overrides where tags alone mislead (e.g. jungle enchanters).
+SUMMARY_OVERRIDES: dict[str, str] = {
+    "Ivern": (
+        "Ivern wins with fast camp clears, Triggerseed shields, and Daisy teamfights. "
+        "Invade early, burst through shields, and punish long Daisy cooldown."
+    ),
+}
+
+CHAMPION_COUNTER_OVERRIDES: dict[str, list[dict[str, str]]] = {
+    "Ivern": [
+        {"champion": "Lee Sin", "role": "Jungle", "reason": "Invades early and wins skirmishes before Ivern finishes camp setup."},
+        {"champion": "Graves", "role": "Jungle", "reason": "Fast clear and burst — steals camps and collapses on Ivern."},
+        {"champion": "Elise", "role": "Jungle", "reason": "Early pressure and cocoon punishes slow, shield-reliant junglers."},
+        {"champion": "Nidalee", "role": "Jungle", "reason": "Invades and spears chunk Ivern before Daisy comes online."},
+        {"champion": "Kindred", "role": "Jungle", "reason": "Kites Daisy and marks camps — denies Ivern's clear identity."},
+    ],
+    "Graves": [
+        {"champion": "Karthus", "role": "Jungle", "reason": "Global pressure and faster scaling teamfights outvalue Graves mid-game."},
+        {"champion": "Rammus", "role": "Jungle", "reason": "Armor stack reduces burst; taunt stops shotgun all-ins."},
+        {"champion": "Malphite", "role": "Top/Jungle", "reason": "Armor and R disengage shut down short-range DPS."},
+        {"champion": "Poppy", "role": "Jungle/Top", "reason": "W blocks E dash; extended fights favor Poppy."},
+        {"champion": "Kindred", "role": "Jungle", "reason": "Kiting and R save from Graves burst windows."},
+    ],
+    "Kindred": [
+        {"champion": "Rengar", "role": "Jungle", "reason": "One-shot burst before Lamb can stack marks safely."},
+        {"champion": "Kha'Zix", "role": "Jungle", "reason": "Isolation burst kills Kindred before R can save them."},
+        {"champion": "Vi", "role": "Jungle", "reason": "Point-and-click ult locks down mobile marksmen jungler."},
+        {"champion": "Nautilus", "role": "Support", "reason": "Hard CC stops kiting and denies mark stack resets."},
+        {"champion": "Warwick", "role": "Jungle", "reason": "R suppression holds Kindred in place for team collapse."},
+    ],
+}
+
 SUMMARY_TEMPLATES: dict[str, str] = {
     "Fighter": "{name} wins extended melee trades and wants to stick to you. Respect their all-in windows and kite between cooldowns.",
     "Tank": "{name} soaks damage and enables teamfights with CC. Avoid extended fights — focus % HP damage and kiting.",
@@ -100,45 +131,40 @@ SUMMARY_TEMPLATES: dict[str, str] = {
 }
 
 TAG_COMBO_SUMMARIES: dict[frozenset[str], str] = {
-    frozenset({"Support", "Mage"}): "{name} is an enchanter support who wins by shielding, buffing, and controlling space. Hard engage and burst punish slow shield reactions.",
+    frozenset({"Support", "Mage"}): "{name} is an enchanter who wins by shielding, buffing, and controlling space. Hard engage and burst punish slow shield reactions.",
     frozenset({"Support", "Tank"}): "{name} is a tank support who wins lane with CC chains and body-blocking. Poke and % HP damage reduce their frontline value.",
     frozenset({"Fighter", "Tank"}): "{name} is a juggernaut who wins long trades and becomes unkillable with items. Kite, short-trade, and respect their W/R power spikes.",
     frozenset({"Assassin", "Fighter"}): "{name} is a skirmisher who wins with dash chains and burst combos. Point-and-click CC and early all-ins shut them down.",
     frozenset({"Mage", "Assassin"}): "{name} is a burst mage who wins with spell rotation and pick potential. Magic resist and hard CC before they commit win the matchup.",
 }
 
-# Keywords for ability tip transformation
-CC_KEYWORDS = {
-    "stun": "Stuns — respect the CC window and don't face-check without vision.",
-    "root": "Roots in place — sidestep or hide behind minions; allies may follow up.",
-    "knockup": "Knockup — unstoppable CC; don't commit when this ability is available.",
-    "knock back": "Knockback — can disrupt your engage or reposition you into danger.",
+CC_PATTERNS: list[tuple[str, str]] = [
+    (r"\bstun(?:s|ned)?\b", "stun"),
+    (r"\broot(?:s|ed)?\b", "root"),
+    (r"\bknock\s*up\b", "knockup"),
+    (r"\bknock(?:s|ed)?\s*back\b", "knockback"),
+    (r"\bsuppress(?:es|ion|ed)?\b", "suppress"),
+    (r"\bsilenc(?:e|es|ed)\b", "silence"),
+    (r"\bcharm(?:s|ed)?\b", "charm"),
+    (r"\bfear(?:s|ed)?\b", "fear"),
+    (r"\btaunt(?:s|ed)?\b", "taunt"),
+    (r"\bslow(?:s|ed)?\b", "slow"),
+    (r"\bhook\b|\bgrab\b|\bpull(?:s|ed)?\b", "hook"),
+]
+
+CC_ADVICE: dict[str, str] = {
+    "stun": "Hard stun — don't commit when it's available; sidestep or hide behind minions.",
+    "root": "Roots in place — sidestep the skillshot or hide behind minions; allies may dash to follow up.",
+    "knockup": "Knockup — unstoppable CC; disengage when this ability is ready.",
+    "knockback": "Knockback — can disrupt your engage or peel you into their team.",
     "suppress": "Suppression — cannot be cleansed with QSS; play safe when it's up.",
-    "silence": "Silence — removes your ability to cast spells; disengage immediately.",
-    "charm": "Charm — forces you to walk toward them; sidestep or hide behind minions.",
+    "silence": "Silence — removes spell casts; disengage immediately if it lands.",
+    "charm": "Charm — forces you to walk toward them; sidestep or break line-of-sight.",
     "fear": "Fear — forces retreat; don't chase into fog when this is available.",
-    "taunt": "Taunt — forces you to attack them; back off when this is active.",
-    "slow": "Applies slow — movement speed reduction makes you vulnerable to follow-up.",
-    "pull": "Pulls you toward them — stay out of range or bait it on cooldown.",
-    "grab": "Grab/hook — hide behind minions and punish the long cooldown if it misses.",
+    "taunt": "Taunt — forces auto-attacks; back off when this is active.",
+    "slow": "Applies slow — movement reduction sets up follow-up damage.",
+    "hook": "Hook/grab — stand behind minions; punish the long cooldown if it misses.",
 }
-
-MECHANIC_KEYWORDS = {
-    "shield": "Grants a shield — burst through it quickly or wait for it to expire before committing.",
-    "heal": "Heals — short trades prevent healing value; buy anti-heal.",
-    "untargetable": "Makes them untargetable — don't waste key abilities while it's active.",
-    "invulnerable": "Invulnerability — disengage and wait it out; do not burn cooldowns.",
-    "true damage": "True damage — ignores armor/MR; respect the raw damage output.",
-    "execute": "Execute — lethal at low HP; recall or heal before the threshold.",
-    "percent": "% HP damage — stacking HP items helps them less; still respect the raw numbers.",
-    "magic damage": "Deals magic damage — consider Mercury's Treads or MR items.",
-    "physical damage": "Deals physical damage — consider Plated Steelcaps or armor.",
-    "reset": "Resets on kill — do not chase after takedowns; they will outrun or snowball.",
-    "global": "Global range — recall at low HP even without direct vision.",
-    "steals": "Steals stats or abilities — avoid isolated 1v1s when this is available.",
-}
-
-ULT_THREAT_WORDS = ("ultimate", "global", "execute", "suppress", "knockup", "untargetable", "invulnerable")
 
 
 def generate_guide(detail: dict[str, Any]) -> dict[str, Any]:
@@ -146,36 +172,52 @@ def generate_guide(detail: dict[str, Any]) -> dict[str, Any]:
     tags = detail.get("tags", [])
     name = detail["name"]
     spells = detail.get("spells", [])
+    key_ability = _pick_key_ability(spells)
 
     return {
-        "summary": _generate_summary(name, tags),
-        "counter_picks": _generate_counter_picks(tags),
-        "ability_tips": [_generate_ability_tip(spell) for spell in spells],
+        "summary": _generate_summary(name, tags, spells),
+        "counter_picks": _generate_counter_picks(name, tags),
+        "ability_tips": [
+            _generate_ability_tip(spell, key=key_ability) for spell in spells
+        ],
         "laning_tips": _generate_laning_tips(name, tags, spells),
-        "power_spikes": _generate_power_spikes(name, tags, spells),
-        "items_to_consider": _generate_items(tags, spells),
+        "power_spikes": _generate_power_spikes(name, tags, spells)[:3],
+        "items_to_consider": _generate_items(tags, spells)[:3],
     }
 
 
-def _generate_summary(name: str, tags: list[str]) -> str:
+def _generate_summary(name: str, tags: list[str], spells: list[dict]) -> str:
+    if name in SUMMARY_OVERRIDES:
+        return SUMMARY_OVERRIDES[name]
+
     tag_set = frozenset(tags)
     for combo, template in TAG_COMBO_SUMMARIES.items():
         if combo.issubset(tag_set):
             return template.format(name=name)
 
+    spell_text = " ".join(s.get("description", "") for s in spells).lower()
+    if _is_jungle_champion(spell_text):
+        return (
+            f"{name} wins through jungle control and objective setup. "
+            "Invade early, punish slow clears, and collapse before they scale."
+        )
+
     primary = tags[0] if tags else "Fighter"
     template = SUMMARY_TEMPLATES.get(primary, SUMMARY_TEMPLATES["Fighter"])
     if len(tags) > 1:
-        secondary = tags[1]
-        template = (
-            f"{name} is a {primary.lower()}/{secondary.lower()} who "
-            f"{template.split(' wins ', 1)[1] if ' wins ' in template else template.split('. ', 1)[-1]}"
-        )
-        return template
+        secondary = tags[1].lower()
+        role = f"{primary.lower()}/{secondary}"
+        if " wins " in template:
+            rest = template.split(" wins ", 1)[1]
+            return f"{name} is a {role} who wins {rest}"
+        return f"{name} is a {role}. {template.format(name=name)}"
     return template.format(name=name)
 
 
-def _generate_counter_picks(tags: list[str]) -> list[dict[str, str]]:
+def _generate_counter_picks(name: str, tags: list[str]) -> list[dict[str, str]]:
+    if name in CHAMPION_COUNTER_OVERRIDES:
+        return CHAMPION_COUNTER_OVERRIDES[name][:5]
+
     tag_set = frozenset(tags)
     pool: list[dict[str, str]] = []
 
@@ -190,77 +232,212 @@ def _generate_counter_picks(tags: list[str]) -> list[dict[str, str]]:
     if not pool:
         pool = COUNTER_POOLS["Fighter"]
 
+    # Exclude the champion themselves and dedupe
     seen: set[str] = set()
     unique: list[dict[str, str]] = []
     for entry in pool:
         champ = entry["champion"]
-        if champ not in seen:
+        if champ != name and champ not in seen:
             seen.add(champ)
             unique.append(entry)
-        if len(unique) >= 5:
-            break
+
+    # Backfill if self was in pool (e.g. Draven, Pantheon)
+    if len(unique) < 5:
+        for tag in tags:
+            for entry in COUNTER_POOLS.get(tag, []):
+                champ = entry["champion"]
+                if champ != name and champ not in seen:
+                    seen.add(champ)
+                    unique.append(entry)
+                if len(unique) >= 5:
+                    break
+            if len(unique) >= 5:
+                break
+
+    if len(unique) < 5:
+        for entry in COUNTER_POOLS["Fighter"]:
+            champ = entry["champion"]
+            if champ != name and champ not in seen:
+                seen.add(champ)
+                unique.append(entry)
+            if len(unique) >= 5:
+                break
 
     return unique[:5]
 
 
-def _generate_ability_tip(spell: dict[str, Any]) -> dict[str, str]:
-    key = spell["key"]
+def _first_cooldown(spell: dict[str, Any]) -> int | None:
+    raw = spell.get("cooldown", "")
+    if not raw:
+        return None
+    first = raw.split("/")[0].strip()
+    if first.isdigit():
+        return int(first)
+    return None
+
+
+def _detect_cc(desc_lower: str) -> str | None:
+    for pattern, label in CC_PATTERNS:
+        if re.search(pattern, desc_lower):
+            return label
+    return None
+
+
+def _detect_damage_type(desc_lower: str) -> str | None:
+    if "true damage" in desc_lower:
+        return "true"
+    if "magic damage" in desc_lower:
+        return "magic"
+    if "physical damage" in desc_lower:
+        return "physical"
+    return None
+
+
+def _is_jungle_champion(spell_text: str) -> bool:
+    markers = (
+        "jungle camp",
+        "non-epic monster",
+        "cannot attack or be attacked by non-epic",
+        "smite",
+    )
+    return any(m in spell_text for m in markers)
+
+
+def _is_jungle_only_passive(desc: str) -> bool:
+    dl = desc.lower()
+    return (
+        "cannot attack or be attacked by non-epic" in dl
+        or ("jungle camp" in dl and "ally" not in dl[:80])
+    )
+
+
+def _pick_key_ability(spells: list[dict]) -> str:
+    best_key = "R"
+    best_score = -1
+    for spell in spells:
+        key = spell["key"]
+        desc = spell.get("description", "").lower()
+        score = 0
+        cd = _first_cooldown(spell)
+        if key == "R":
+            score += 4
+        if _detect_cc(desc):
+            score += 3
+        if any(w in desc for w in ("hook", "grab", "charm", "suppress", "execute")):
+            score += 4
+        if "global" in desc:
+            score += 3
+        if cd and cd >= 14:
+            score += 2
+        if "shield" in desc and key in ("W", "E"):
+            score += 1
+        if score > best_score:
+            best_score = score
+            best_key = key
+    return best_key
+
+
+def _generate_ability_tip(spell: dict[str, Any], *, key: str) -> dict[str, str]:
+    spell_key = spell["key"]
     name = spell["name"]
     desc = spell.get("description", "")
     desc_lower = desc.lower()
+    cd = _first_cooldown(spell)
+    cc = _detect_cc(desc_lower)
+    dmg = _detect_damage_type(desc_lower)
+    is_key = spell_key == key
 
-    tip_parts: list[str] = []
+    parts: list[str] = []
 
-    if key == "R":
-        tip_parts.append(f"ULTIMATE — {name} is their biggest teamfight threat.")
-    elif key == "P":
-        tip_parts.append(f"Passive — learn when {name} activates in lane trades.")
+    if is_key:
+        parts.append("THE KEY ABILITY.")
 
-    for keyword, advice in CC_KEYWORDS.items():
-        if keyword in desc_lower:
-            tip_parts.append(advice)
-            break
+    if spell_key == "P" and _is_jungle_only_passive(desc):
+        parts.append(
+            f"{name} is jungle-focused — in lane, respect their Q/W/E instead. "
+            "Invade or match roams to deny camp control."
+        )
+    elif spell_key == "P":
+        if "move speed" in desc_lower or "movement speed" in desc_lower:
+            parts.append(
+                f"{name} grants move speed on takedowns or procs. "
+                "CC immediately after kills — don't chase into reset speed."
+            )
+        elif "shield" in desc_lower:
+            parts.append(
+                f"{name} generates shields from movement or actions. "
+                "Break the shield with any damage before committing to trades."
+            )
+        elif "stack" in desc_lower or "stacks" in desc_lower:
+            parts.append(
+                f"{name} stacks over time — short trades prevent full passive value."
+            )
+        else:
+            core = _condense_mechanic(_first_sentence(desc))
+            parts.append(f"{name} passive: {core} Respect it in extended trades.")
 
-    for keyword, advice in MECHANIC_KEYWORDS.items():
-        if keyword in desc_lower:
-            tip_parts.append(advice)
-            break
+    if "brush" in desc_lower or "bush" in desc_lower:
+        parts.append(
+            "Creates brush — ward it immediately; they gain combat advantages and bonus damage inside."
+        )
+
+    if "summon" in desc_lower and spell_key == "R":
+        parts.append(
+            "Summons a pet — focus it down or CC it; it adds significant frontline pressure."
+        )
+
+    if cc and spell_key != "P":
+        parts.append(CC_ADVICE[cc])
+
+    if "shield" in desc_lower and spell_key != "P":
+        parts.append(
+            "Grants a shield — burst through it or wait for it to break before committing."
+        )
+
+    if "heals" in desc_lower or re.search(r"\bheal(?:s|ing)?\b", desc_lower):
+        if "heal" in desc_lower and "health" not in desc_lower[:20]:
+            parts.append("Healing — take short trades and buy anti-heal (Oblivion Orb / Bramble Vest).")
+
+    if "untargetable" in desc_lower or "cannot be targeted" in desc_lower:
+        parts.append("Makes them untargetable — don't waste key abilities during this window.")
+
+    if "true damage" in desc_lower:
+        parts.append("True damage — ignores armor/MR; respect the raw damage.")
+
+    if "execute" in desc_lower or "missing health" in desc_lower:
+        parts.append("Execute damage — recall or heal before the kill threshold.")
+
+    if "global" in desc_lower:
+        parts.append("Global range — recall at low HP even without direct vision.")
 
     if "allies can dash" in desc_lower or "ally can dash" in desc_lower:
-        tip_parts.append("Allies can dash to the target — don't get caught isolated near rooted teammates.")
-    elif re.search(r"\b(dash|blink|leap)\b", desc_lower) and key != "P":
-        tip_parts.append("Mobility tool — track its cooldown before committing to trades.")
+        parts.append(
+            "Allies can dash to the target — don't get caught isolated near CC'd teammates."
+        )
+    elif re.search(r"\b(dash|blink|leap)\b", desc_lower) and spell_key != "P":
+        parts.append("Mobility tool — track its cooldown before committing to trades.")
 
-    cooldown = spell.get("cooldown", "")
-    if cooldown and key not in ("P", "R"):
-        first_cd = cooldown.split("/")[0]
-        if first_cd.isdigit() and 8 <= int(first_cd) <= 30:
-            tip_parts.append(f"~{first_cd}s cooldown early — punish hard when it's down.")
+    if dmg == "magic" and spell_key != "P":
+        parts.append("Magic damage — Mercury's Treads or early MR reduces burst.")
+    elif dmg == "physical" and spell_key != "P":
+        parts.append("Physical damage — Plated Steelcaps or early armor helps.")
 
-    core = _first_sentence(desc)
-    if core:
-        actionable = _make_actionable(core, name, key)
-        if not _is_redundant(actionable, tip_parts):
-            tip_parts.append(actionable)
+    if cd and spell_key not in ("P",) and cd >= 8:
+        parts.append(f"{cd}s cooldown at rank 1 — punish hard when it's down.")
 
-    if not tip_parts:
-        tip_parts.append(f"Respect {name} — play around its cooldown in lane.")
+    if spell_key == "R" and not is_key:
+        parts.append(f"Ultimate — {name} is their biggest teamfight threat. Track its cooldown.")
 
-    return {"key": key, "name": name, "tip": " ".join(tip_parts)}
+    if len(parts) <= (1 if is_key else 0):
+        core = _condense_mechanic(_first_sentence(desc))
+        if spell_key == "P":
+            parts.append(f"{name}: {core}")
+        else:
+            parts.append(f"Respect {name} — {core}")
 
-
-def _is_redundant(actionable: str, existing: list[str]) -> bool:
-    """Skip actionable line if it repeats an earlier keyword advice."""
-    lower = actionable.lower()
-    for part in existing:
-        pl = part.lower()
-        if "shield" in pl and "shield" in lower:
-            return True
-        if "root" in pl and "root" in lower:
-            return True
-        if "slow" in pl and "slow" in lower:
-            return True
-    return False
+    tip = " ".join(parts)
+    tip = re.sub(r"\s+", " ", tip).strip()
+    return {"key": spell_key, "name": name, "tip": tip}
 
 
 def _first_sentence(text: str) -> str:
@@ -268,86 +445,55 @@ def _first_sentence(text: str) -> str:
     return sentences[0] if sentences else text[:200]
 
 
-def _make_actionable(core: str, name: str, key: str) -> str:
-    """Turn raw description into a 'respect this' tip."""
-    core_lower = core.lower()
-
-    if "root" in core_lower:
-        return f"When {name} ({key}) lands, expect follow-up — don't face-check brush or straight-line paths."
-    if "shield" in core_lower:
-        return f"{name} ({key}) shields allies — burst through the shield or wait for it to break before committing."
-    if "dash" in core_lower or "blink" in core_lower:
-        return f"{name} ({key}) enables ally dashes or self-reposition — track who's in range to follow up."
-    if "slow" in core_lower:
-        return f"{name} ({key}) slows on detonation — don't stand clustered or you'll all get hit."
-    if "summon" in core_lower:
-        return f"{name} ({key}) summons a pet — focus it down or kite; it adds significant DPS and CC."
-    if "brush" in core_lower or "bush" in core_lower:
-        return f"{name} ({key}) creates brush — ward it immediately; bonus damage and vision advantage inside."
-    if "jungle" in core_lower or "monster" in core_lower:
-        return f"{name} ({key}) is jungle-focused — in lane, focus on their Q/W/E threat instead."
-    if "stun" in core_lower or "knockup" in core_lower:
-        return f"{name} ({key}) is hard CC — don't commit when it's available; sidestep or hide behind minions."
-    if "heal" in core_lower:
-        return f"{name} ({key}) heals — take short trades and buy anti-heal to cut sustain."
-    if "damage" in core_lower:
-        return f"Respect {name} ({key}) damage — {_condense_mechanic(core)}"
-
-    return f"Respect {name} ({key}): {_condense_mechanic(core)}"
-
-
 def _condense_mechanic(text: str) -> str:
-    """Shorten a description sentence for tip readability."""
     text = re.sub(r"\s+", " ", text).strip()
-    if len(text) > 120:
-        return text[:117] + "..."
+    if len(text) > 140:
+        return text[:137] + "..."
     return text
 
 
 def _generate_laning_tips(name: str, tags: list[str], spells: list[dict]) -> list[str]:
     tips: list[str] = []
     tag_set = set(tags)
-    is_ranged = "Mage" in tag_set or "Marksman" in tag_set
-    is_melee = "Fighter" in tag_set or "Assassin" in tag_set or ("Tank" in tag_set and "Support" not in tag_set)
-    is_support = "Support" in tag_set
-    is_assassin = "Assassin" in tag_set
-
     spell_text = " ".join(s.get("description", "") for s in spells).lower()
-    has_hook = any(w in spell_text for w in ("hook", "grab", "pull"))
+    key_spell = next((s for s in spells if s["key"] == _pick_key_ability(spells)), None)
+    key_name = key_spell["name"] if key_spell else "key ability"
+    key_cd = _first_cooldown(key_spell) if key_spell else None
+
+    has_hook = any(w in spell_text for w in ("hook", "grab", "rocket grab"))
     has_shield = "shield" in spell_text
-    has_poke = any(w in spell_text for w in ("skillshot", "range", "line", "projectile")) or is_ranged
     has_dash = any(
         re.search(r"\b(dash|blink|leap)\b", s.get("description", "").lower())
         and "allies can dash" not in s.get("description", "").lower()
         for s in spells
     )
 
+    if _is_jungle_champion(spell_text):
+        tips.append(f"Invade {name} early — they are vulnerable before first item and camp setup.")
+        tips.append(f"Track {name}'s clear path with wards; collapse on skirmishes at marked camps.")
     if has_hook:
-        tips.append(f"Stand behind minions vs {name}'s hook/grab — punish every miss on its long cooldown.")
+        tips.append(f"Stand behind minions vs {name}'s hook — punish every miss on its long cooldown.")
     if has_shield:
-        tips.append(f"Burst through {name}'s shields quickly or wait for them to expire before committing.")
-    if is_ranged and not is_support:
-        tips.append(f"All-in when {name}'s key skillshot is on cooldown — ranged champs are weak without it.")
-    if is_melee:
-        tips.append(f"Kite and short-trade — {name} wins extended melee fights; disengage after one rotation.")
-    if is_assassin:
+        tips.append(f"Burst through {name}'s shields or wait for them to expire before committing.")
+    if "Assassin" in tag_set:
         tips.append(f"Buy early defensive stats — {name} wins burst windows at level 6 and first item.")
-    if is_support and "Mage" in tag_set:
-        tips.append(f"Hard engage beats {name} — collapse before shields and peel come online.")
+    if "Marksman" in tag_set:
+        tips.append(f"All-in early — {name} is weak levels 1-3 before first item spike.")
+    if "Fighter" in tag_set or ("Tank" in tag_set and "Support" not in tag_set):
+        tips.append(f"Kite and short-trade — {name} wins extended melee fights.")
+    if "Mage" in tag_set and "Support" not in tag_set:
+        tips.append(f"All-in when {name}'s key skillshot is on cooldown — mages are weak without it.")
     if has_dash:
         tips.append(f"Track {name}'s dash cooldown — they are much less threatening while mobility is down.")
-    if has_poke and is_support:
-        tips.append(f"Don't stand in straight lines — {name}'s poke adds up; trade when their mana is low.")
-    if "brush" in spell_text or "bush" in spell_text:
-        tips.append(f"Ward brush that {name} creates — they gain combat advantages inside it.")
+    if key_cd and key_cd >= 10:
+        tips.append(f"Punish when {key_name} is on cooldown (~{key_cd}s early).")
 
-    # Fill to 5 with tag-generic tips
     generic = [
-        f"Punish {name} when their ultimate is on cooldown — that's their biggest threat window.",
-        f"Control vision around {name} — fog of war lets them land key abilities for free.",
+        f"Control vision around {name} — fog of war lets them land {key_name} for free.",
         f"Short trades prevent {name} from stacking passives or landing full combos.",
         f"Call jungle pressure when {name} pushes — immobile champions are gank targets.",
         f"Buy early boots to dodge skillshots and reposition against {name}.",
+        f"Punish {name} when their ultimate is on cooldown — that's their biggest window.",
     ]
     for tip in generic:
         if len(tips) >= 5:
@@ -359,61 +505,57 @@ def _generate_laning_tips(name: str, tags: list[str], spells: list[dict]) -> lis
 
 
 def _generate_power_spikes(name: str, tags: list[str], spells: list[dict]) -> list[str]:
-    spikes: list[str] = []
     tag_set = set(tags)
-
-    # Find R cooldown for level 6 context
     r_spell = next((s for s in spells if s["key"] == "R"), None)
     r_name = r_spell["name"] if r_spell else "ultimate"
 
-    spikes.append(f"Level 6: {r_name} unlocks — {name}'s kill pressure spikes significantly")
+    spikes = [f"Level 6: {r_name} unlocks — {name}'s kill pressure spikes significantly"]
 
     if "Support" in tag_set:
         spikes.append(f"First support item: {name}'s teamfight utility and peel spike hard")
     elif "Mage" in tag_set or "Assassin" in tag_set:
         spikes.append(f"First item completion: {name}'s burst damage becomes lethal in one rotation")
     elif "Marksman" in tag_set:
-        spikes.append(f"First item (IE/Navori): {name} auto-attack DPS jumps — all-in before this spike")
+        spikes.append(f"First item (Kraken/IE): {name} DPS jumps — all-in before this spike")
     elif "Fighter" in tag_set or "Tank" in tag_set:
         spikes.append(f"First item (Trinity/Heartsteel): {name} wins extended trades and duels")
+    else:
+        spikes.append(f"First item spike: {name} reaches a major power increase")
 
     spikes.append(f"Level 11: Rank 2 {r_name} — stronger teamfight and pick potential")
-
-    if "Assassin" in tag_set:
-        spikes.append(f"First back with Serrated Dirk: {name} has lethal combo damage pre-6 items")
-    elif "Marksman" in tag_set:
-        spikes.append(f"2+ items: {name} becomes a teamfight hypercarry — hard engage before they scale")
-
-    return spikes[:4]
+    return spikes[:3]
 
 
 def _generate_items(tags: list[str], spells: list[dict]) -> list[str]:
     items: list[str] = []
     spell_text = " ".join(s.get("description", "") for s in spells).lower()
+    tag_set = set(tags)
 
-    has_magic = "magic damage" in spell_text or "Mage" in tags
-    has_physical = "physical damage" in spell_text or "Fighter" in tags or "Assassin" in tags or "Marksman" in tags
+    has_magic = "magic damage" in spell_text or "Mage" in tag_set
+    has_physical = (
+        "physical damage" in spell_text
+        or "Fighter" in tag_set
+        or "Assassin" in tag_set
+        or "Marksman" in tag_set
+    )
     has_cc = any(w in spell_text for w in ("stun", "root", "charm", "knockup", "suppress", "taunt", "fear"))
     has_heal = "heal" in spell_text
-    has_shield = "shield" in spell_text
-    has_burst = "Assassin" in tags or ("Mage" in tags and "Support" not in tags)
+    has_burst = "Assassin" in tag_set or ("Mage" in tag_set and "Support" not in tag_set)
 
     if has_physical:
         items.append("Plated Steelcaps — reduces auto-attack and physical ability damage")
     if has_magic:
         items.append("Mercury's Treads — MR and tenacity vs magic damage and CC")
-    if has_cc and "Mage" in tags:
-        items.append("Verdant Barrier / Hexdrinker — early survivability vs burst combos")
     if has_burst:
         items.append("Seeker's Armguard / Hexdrinker — survive all-in burst windows")
-    if has_heal or has_shield:
-        items.append("Oblivion Orb / Bramble Vest — cut healing and shield sustain value")
-    if "Marksman" in tags:
-        items.append("Randuin's Omen / Thornmail — reduce crit DPS if you're a tank")
-    if "Tank" in tags:
-        items.append("Lord Dominik's Regards / Void Staff — % HP and penetration vs tanks")
-    if "Assassin" in tags:
+    if has_cc and not has_burst and not any("Mercury's Treads" in i for i in items):
+        items.append("Mercury's Treads — tenacity reduces CC duration")
+    if has_heal:
+        items.append("Oblivion Orb / Bramble Vest — cut healing and sustain value")
+    if "Assassin" in tag_set:
         items.append("Zhonya's Hourglass — stasis dodges assassination combo")
+    if "Marksman" in tag_set and "Tank" in tag_set:
+        items.append("Randuin's Omen — reduce crit DPS from ADC")
 
     if not items:
         items = [
@@ -422,11 +564,26 @@ def _generate_items(tags: list[str], spells: list[dict]) -> list[str]:
             "Control Wards — deny fog-of-war setups",
         ]
 
+    fallbacks = [
+        "Control Wards — deny fog-of-war setups",
+        "Early Boots — dodge skillshots and reposition",
+        "Stopwatch / Seeker's Armguard — survive burst windows",
+    ]
+    for fb in fallbacks:
+        if len(items) >= 3:
+            break
+        if fb not in items:
+            items.append(fb)
+
+    def _item_key(item: str) -> str:
+        return item.split("—")[0].strip().lower()
+
     seen: set[str] = set()
     unique: list[str] = []
     for item in items:
-        if item not in seen:
-            seen.add(item)
+        key = _item_key(item)
+        if key not in seen:
+            seen.add(key)
             unique.append(item)
 
-    return unique[:4]
+    return unique[:3]

@@ -19,7 +19,7 @@ from src.counters.ddragon import (  # noqa: E402
     spell_image_url,
 )
 from src.counters.guide_generator import generate_guide  # noqa: E402
-from src.counters.matchup_db import get_matchup  # noqa: E402
+from src.counters.matchup_db import get_matchup, is_premium_guide  # noqa: E402
 
 app = FastAPI(
     title="League Counter Pick",
@@ -88,7 +88,7 @@ def counter_guide(champion: str) -> dict:
         raise HTTPException(status_code=404, detail=f"Champion '{champion}' not found")
 
     detail = get_champion_detail(champ["id"])
-    matchup = get_matchup(champ["id"])
+    matchup = get_matchup(champ["id"], champ["name"])
 
     if matchup:
         guide = {
@@ -99,8 +99,12 @@ def counter_guide(champion: str) -> dict:
             "power_spikes": matchup.get("power_spikes", []),
             "items_to_consider": matchup.get("items_to_consider", []),
         }
+        has_full_guide = True
     else:
         guide = generate_guide(detail)
+        has_full_guide = False
+
+    is_premium = bool(matchup and is_premium_guide(detail["name"]))
 
     return {
         "champion": {
@@ -118,7 +122,9 @@ def counter_guide(champion: str) -> dict:
             }
             for s in detail["spells"]
         ],
-        "has_curated_guide": matchup is not None,
+        "has_full_guide": has_full_guide,
+        "is_premium_guide": is_premium,
+        "has_curated_guide": has_full_guide,
     }
 
 

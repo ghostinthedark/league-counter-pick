@@ -50,9 +50,19 @@ function deriveMatchupDifficulty(guide) {
   if (/easy|simple|immobile|no escape|easy to gank|punish when/i.test(combined)) {
     return { level: 'easy', label: 'Easy', pct: 30 };
   }
-  return guide.has_curated_guide
+  return guide.has_full_guide
     ? { level: 'medium', label: 'Medium', pct: 60 }
     : { level: 'medium', label: 'Medium', pct: 50 };
+}
+
+function guideBadge(guide) {
+  if (guide.is_premium_guide) {
+    return '<span class="badge badge--premium">Premium Guide</span>';
+  }
+  if (guide.has_full_guide) {
+    return '<span class="badge badge--full">Full Guide</span>';
+  }
+  return '';
 }
 
 function parsePowerSpikeLevel(text) {
@@ -228,7 +238,7 @@ function renderGuide(guide) {
     <div class="guide-hero">
       <img class="guide-hero__portrait" src="${champion.image_url}" alt="${champion.name}" />
       <div class="guide-hero__info">
-        <h2>vs ${champion.name}${guide.has_curated_guide ? ' <span class="badge">Guide</span>' : ''}</h2>
+        <h2>vs ${champion.name}${guideBadge(guide)}</h2>
         <div class="title">${champion.title}</div>
         <div class="tags">${tags}</div>
       </div>

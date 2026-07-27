@@ -22,9 +22,21 @@ def _load() -> dict[str, Any]:
     return _matchups
 
 
-def get_matchup(champion_id: str) -> dict[str, Any] | None:
+def get_matchup(champion_id: str, champion_name: str | None = None) -> dict[str, Any] | None:
     data = _load()
-    return data.get(champion_id) or data.get(champion_id.lower())
+    for key in (champion_name, champion_id, champion_id.lower()):
+        if key and key in data:
+            return data[key]
+    return None
+
+
+def is_premium_guide(champion_name: str) -> bool:
+    """Hand-curated Yasuo-quality guides."""
+    premium = {
+        "Garen", "Darius", "Yasuo", "Lux", "Zed",
+        "Ahri", "Mordekaiser", "Sett", "Thresh", "Jinx",
+    }
+    return champion_name in premium
 
 
 def list_curated_ids() -> list[str]:
