@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" fill="none">
+  <defs>
+    <linearGradient id="sideGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0e6d2" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#c89b3c"/>
+      <stop offset="100%" stop-color="#785a28" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="sideGlow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#c89b3c" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0397ab" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer hextech frame -->
+  <rect x="1.5" y="1.5" width="317" height="417" rx="2" stroke="url(#sideGold)" stroke-width="1.5" opacity="0.85"/>
+  <rect x="8" y="8" width="304" height="404" rx="1" stroke="#785a28" stroke-width="0.5" stroke-opacity="0.45"/>
+  <!-- Corner accents -->
+  <path d="M1.5 24 L1.5 1.5 L24 1.5" stroke="#c89b3c" stroke-width="2" stroke-linecap="square"/>
+  <path d="M318.5 24 L318.5 1.5 L296 1.5" stroke="#c89b3c" stroke-width="2" stroke-linecap="square"/>
+  <path d="M1.5 396 L1.5 418.5 L24 418.5" stroke="#c89b3c" stroke-width="2" stroke-linecap="square"/>
+  <path d="M318.5 396 L318.5 418.5 L296 418.5" stroke="#c89b3c" stroke-width="2" stroke-linecap="square"/>
+  <!-- Side notch details -->
+  <line x1="0" y1="120" x2="14" y2="120" stroke="#c89b3c" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="0" y1="300" x2="14" y2="300" stroke="#c89b3c" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="320" y1="120" x2="306" y2="120" stroke="#c89b3c" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="320" y1="300" x2="306" y2="300" stroke="#c89b3c" stroke-width="1" stroke-opacity="0.5"/>
+  <!-- Subtle inner glow -->
+  <rect x="12" y="12" width="296" height="396" fill="url(#sideGlow)" opacity="0.6"/>
+</svg>
